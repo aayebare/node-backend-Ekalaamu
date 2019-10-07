@@ -1,10 +1,11 @@
 import sequelize from "sequelize";
+import bcrypt from "bcrypt";
 
 import connection from "../../models";
 import { User } from "../../models/user";
 import { Actions } from "../../helpers/actions";
 import { signToken } from "../../helpers/jwt";
-import bcrypt from "bcrypt";
+import { sendMail, verificationEmail } from '../../helpers/mailer';
 
 const db = connection.sync();
 const Op = sequelize.Op;
@@ -19,23 +20,29 @@ export default class AuthController {
           }
         }
       }).done(
-        users =>
-          users.length
-            ? res.status(400).json({ errors: ['Email already in use.'] })
-            : Actions.addData(User, req.body, [
-                "id",
-                "firstname",
-                "lastname",
-                "email",
-                "password"
-              ])
-              .then(user => res.status(201).json({ user: user.email, token: signToken(user.id) }))
-              .catch(err => res.status(400).json({ errors: err.errors.map(er => er.message) }))
+        async users => {
+          if (users.length) {
+            return res.status(400).json({ errors: ['Email already in use.'] })
+          }
+          const user = await Actions.addData(User, req.body, [
+            "id",
+            "firstname",
+            "lastname",
+            "email",
+            "password"
+          ]);
+          const token = signToken(user.id);
+          const emailBody = verificationEmail(user, token);
 
+          await sendMail(emailBody, 'Verification', res)
+        }
       );
-        
     });
   };
+
+  static verifyEmail = (req, res, next) => {
+      
+  }
 
   static login = (req, res, next) => {
 
