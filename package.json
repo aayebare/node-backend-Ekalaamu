@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=dev nodemon --exec babel-node app.js",
-    "test": "NODE_ENV=test"
+    "test": "NODE_ENV=test nyc --reporter=lcov mocha --require @babel/register --exit"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/runtime": "^7.6.2",
     "@sendgrid/mail": "^6.4.0",
-    "bcrypt": "^3.0.6",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
@@ -22,10 +24,16 @@
     "sequelize": "^5.10.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
+    "@babel/cli": "^7.6.2",
+    "@babel/core": "^7.6.2",
     "@babel/node": "^7.5.5",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-env": "^7.5.5",
-    "nodemon": "^1.19.1"
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^6.2.1",
+    "nodemon": "^1.19.1",
+    "nyc": "^14.1.1",
+    "sinon": "^7.5.0"
   }
 }

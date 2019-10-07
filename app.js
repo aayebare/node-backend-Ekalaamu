@@ -28,3 +28,5 @@ app.get('/', (req, res) => {
 const PORT = config.app.port
 
 app.listen(PORT, ()=>console.log(`server has started on port ${PORT}`));
+
+export default app;

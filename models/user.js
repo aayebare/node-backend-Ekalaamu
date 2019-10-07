@@ -1,7 +1,8 @@
 import sequelize from "sequelize";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import connection from ".";
-export const User = connection.define(
+
+const User = connection.define(
   "User",
   {
     id: {
@@ -44,3 +45,8 @@ export const User = connection.define(
   }
 );
 
+User.prototype.validatePassword = async function validatePassword(password) {
+  return bcrypt.compare(password, this.password);
+};
+
+export { User };

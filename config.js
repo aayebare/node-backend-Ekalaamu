@@ -26,7 +26,6 @@ const test = {
 };
 const config = {
     dev,
-    test
 };
 
-module.exports = config[environment];
+module.exports = config['dev'];
