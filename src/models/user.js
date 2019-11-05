@@ -13,6 +13,7 @@ export const User = connection.define(
     strategy: {
       type: Sequelize.STRING,
       allowNull: false,
+      defaultValue: 'local'
     },
     firstname: {
       type: Sequelize.STRING,

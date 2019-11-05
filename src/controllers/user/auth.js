@@ -103,4 +103,36 @@ export default class AuthController {
       token: signToken(id),
     });
   }
+
+  static async resetLink(req, res) {
+    try {
+      const { email } = req.body;
+      ;
+      const result = await User.findOne({ where: { email } });
+
+      if(!result){
+        return res.status(400).json({
+          status: 400,
+          message: "No user with the provided email, please check email or signup",
+
+        });
+      }
+
+      const { id }  = result;
+      const token  = await signToken({id});
+
+      const { dataValues } = result;
+
+      const emailBody = verificationEmail(dataValues, token);
+
+      sendMail(emailBody, 'Password reset', res);
+
+
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        message: error.message
+      });
+    }
+  }
 }

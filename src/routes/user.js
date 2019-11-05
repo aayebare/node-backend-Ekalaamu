@@ -14,4 +14,5 @@ export const userRoutes = (router) => {
   router.route('/facebook').post(passportFacebook, AuthController.facebookAuth);
   router.route('/twitter').post(passportTwitter, AuthController.twitterAuth);
   router.route('/auth/resend').post(authValidator('resendEmail'), AuthController.resendLink);
+  router.post('/reset-link', AuthController.resetLink);
 };

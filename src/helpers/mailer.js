@@ -24,12 +24,14 @@ const verificationEmail = (user, token) => ({
 style="
 background-color:black; color:white;
 padding: 5px; text-align:center;
-">Ekalaamu</h1>
+">Ekalaamu
+</h1>
 <hr />
 <h2>Hello, ${user.firstname}</h2>
-<h3>
-Please verify your email by clicking the link below: <br />
-<a href="${process.env.MAIL_RETURN_URL}/?code=${token}">Verify your Email</a>
+${ user.verified  ? `<h3> Please click link below to reset password</h3>` : `<h3> Please verify your email by clicking the link below</h3>`}   
+<br/>
+<a href="${process.env.MAIL_RETURN_URL}/?code=${token}"> ${user.verified ? `<h3> click to reset password</h3>`:`
+<h3>Verify your Email</h3>`}</a>
 </h3>
 `
 });
