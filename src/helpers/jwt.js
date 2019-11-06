@@ -1,5 +1,5 @@
 import * as JWT from 'jsonwebtoken';
-
+import bcrypt from "bcryptjs";
 const ONE_HOUR = (new Date().getTime() + 60 * 60 * 1000) / 1000;
 
 const signToken = (userId, exp = null) => {
@@ -26,4 +26,14 @@ const decodeToken = (token) => {
   return subject;
 };
 
-export { signToken, decodeToken, ONE_HOUR };
+const verifyToken = (token) => {
+  const secret = process.env.JWT_SECRET
+  return JWT.verify(token, secret);
+}
+
+const hashPassword = async password => {
+  const hash =  await bcrypt.hashSync(password, 8);
+  return hash;
+};
+
+export { signToken, decodeToken,verifyToken, hashPassword, ONE_HOUR };

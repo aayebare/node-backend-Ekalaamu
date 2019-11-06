@@ -30,10 +30,11 @@ padding: 5px; text-align:center;
 <h2>Hello, ${user.firstname}</h2>
 ${ user.verified  ? `<h3> Please click link below to reset password</h3>` : `<h3> Please verify your email by clicking the link below</h3>`}   
 <br/>
-<a href="${process.env.MAIL_RETURN_URL}/?code=${token}"> ${user.verified ? `<h3> click to reset password</h3>`:`
-<h3>Verify your Email</h3>`}</a>
+${user.verified ? `<a href= "${ process.env.APP_URL}/reset/${token}"> click here reset password </a>`:`
+<a href="${process.env.MAIL_RETURN_URL}/?code=${token}"><h3>Verify your Email</h3>`}</a>
 </h3>
 `
 });
+
 
 export { sendMail, verificationEmail };

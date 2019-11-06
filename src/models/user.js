@@ -38,9 +38,9 @@ export const User = connection.define(
   },
   {
     hooks: {
-      afterValidate: (user) => {
+      afterValidate: async (user) => {
         if (user.strategy === 'local') {
-          user.id = bcrypt.hashSync(user.email, 8);
+          user.id =  await bcrypt.hashSync(user.email, 8);
           user.password = bcrypt.hashSync(user.password, 8);
         }
         user.id = user.socialId;
@@ -50,5 +50,5 @@ export const User = connection.define(
 );
 
 User.prototype.validatePassword = async function validatePassword(password) {
-  return bcrypt.compare(password, this.password);
+  return await bcrypt.compare(password, this.password);
 };
